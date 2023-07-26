@@ -1,11 +1,8 @@
 package com.feature.booking;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,23 +10,23 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BookingServiceTest {
 
 
-    private PaymentService paymentService;
-    private RoomService roomService;
-    private BookingDAO bookingDAO;
-    private MailSender mailSender;
+    private PaymentService paymentServiceMock;
+    private RoomService roomServiceMock;
+    private BookingDAO bookingDAOMock;
+    private MailSender mailSenderMock;
     private BookingService bookingService;
 
 
     @BeforeEach
     public void init(){
-        this.paymentService = Mockito.mock(PaymentService.class);
-        this.roomService = Mockito.mock(RoomService.class);
-        this.bookingDAO = Mockito.mock(BookingDAO.class);
-        this.mailSender = Mockito.mock(MailSender.class);
+        this.paymentServiceMock = Mockito.mock(PaymentService.class);
+        this.roomServiceMock = Mockito.mock(RoomService.class);
+        this.bookingDAOMock = Mockito.mock(BookingDAO.class);
+        this.mailSenderMock = Mockito.mock(MailSender.class);
 
-        this.bookingService = new BookingService(paymentService, roomService, bookingDAO, mailSender);
+        this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOMock, mailSenderMock);
 
-        System.out.println(roomService.getAvailableRooms());
+        System.out.println(roomServiceMock.getAvailableRooms());
         System.out.println(bookingService.getTotalAvailablePlaceCount());
     }
 
@@ -44,8 +41,8 @@ public class BookingServiceTest {
     @Test
     public void should_return_26_place_because_of_Real_RoomService(){
         int expectPlace = (2 * 8) + (1* 10); // 26 places
-        RoomService roomService = new RoomService();
-        this.bookingService = new BookingService(paymentService, roomService, bookingDAO, mailSender);
+        RoomService roomServiceReal = new RoomService();
+        this.bookingService = new BookingService(paymentServiceMock, roomServiceReal, bookingDAOMock, mailSenderMock);
         int actual =  this.bookingService.getTotalAvailablePlaceCount();
         assertEquals(expectPlace, actual);
     }

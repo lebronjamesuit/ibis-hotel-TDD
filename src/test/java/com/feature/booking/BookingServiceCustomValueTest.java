@@ -14,28 +14,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BookingServiceCustomValueTest {
 
 
-    private PaymentService paymentService;
-    private RoomService roomService;
-    private BookingDAO bookingDAO;
-    private MailSender mailSender;
+    private PaymentService paymentServiceMock;
+    private RoomService roomServiceMock;
+    private BookingDAO bookingDAOMock;
+    private MailSender mailSenderMock;
     private BookingService bookingService;
 
 
     @BeforeEach
     public void init(){
-        this.paymentService = Mockito.mock(PaymentService.class);
-        this.roomService = Mockito.mock(RoomService.class);
-        this.bookingDAO = Mockito.mock(BookingDAO.class);
-        this.mailSender = Mockito.mock(MailSender.class);
+        this.paymentServiceMock = Mockito.mock(PaymentService.class);
+        this.roomServiceMock = Mockito.mock(RoomService.class);
+        this.bookingDAOMock = Mockito.mock(BookingDAO.class);
+        this.mailSenderMock = Mockito.mock(MailSender.class);
 
-        this.bookingService = new BookingService(paymentService, roomService, bookingDAO, mailSender);
+        this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOMock, mailSenderMock);
+
 
     }
 
     @Test
     public void should_countPlace_when_OneRoomAvailable () {
             // Given , ta co
-        Mockito.when(this.roomService.getAvailableRooms())
+        Mockito.when(this.roomServiceMock.getAvailableRooms())
                 .thenReturn(Collections.singletonList(new Room("Room1", 5)));
             // When, call some method, do something
         int placeCount = bookingService.getTotalAvailablePlaceCount();
@@ -50,7 +51,7 @@ public class BookingServiceCustomValueTest {
     public void should_countPlace_when_TwoRoomAvailable () {
         // Given , custom value
         List<Room> rooms = Arrays.asList(new Room("RoomA", 2), new Room("RoomB",4));
-        Mockito.when(this.roomService.getAvailableRooms())
+        Mockito.when(this.roomServiceMock.getAvailableRooms())
                 .thenReturn(rooms);
 
         // When,

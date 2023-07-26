@@ -35,4 +35,12 @@ public class BookingService {
         return placesCount;
     }
 
+    // Main buz logic
+    public String makeBooking(BookingRequest bookingRequest) {
+       Room room = roomService.findAnyAvailableRoom(bookingRequest);
+       return room.getId();
+    }
+
+
+
 }
