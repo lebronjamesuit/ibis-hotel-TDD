@@ -19,6 +19,7 @@ public class BookingService {
 	private final static double BASE_PRICE_USD = 50.0;
 
 	public double calculatePrice(BookingRequest bookingRequest) {
+
 		return 0;
 	}
 	
