@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 public class RoomService {
 
+    public final String messageException = "There is no room that matched the request";
+
     private final Map<Room, Boolean> roomAvailability;
     {
         roomAvailability = new HashMap<>();
@@ -32,6 +34,16 @@ public class RoomService {
                   .collect(Collectors.toList());
     }
 
+    public Room findAnyAvailableRoom(BookingRequest bookingRequest) {
+        // Entry short-form is e
+       Room room  =  roomAvailability.entrySet().stream()
+                .filter(e -> e.getValue().equals(true))
+                .map(e -> e.getKey())
+                .filter(e -> e.getCapacity() == bookingRequest.getGuestCount())
+                .findFirst().orElseThrow( () -> new BusinessException(messageException));
+
+       return room;
+    }
 
 
 
