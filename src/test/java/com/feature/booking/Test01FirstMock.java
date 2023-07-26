@@ -28,19 +28,36 @@ public class Test01FirstMock {
         this.bookingService = new BookingService(paymentService, roomService, bookingDAO, mailSender);
 
     }
-    
+
     @Test
     public void should_true_when_correctInput() {
-        String userId = "user01";
-        LocalDate dateFrom = LocalDate.now();
-        LocalDate dateTo =  LocalDate.now().plusDays(3);
-        int guestCount = 3;
-        boolean prepaid = false;
 
-        BookingRequest request =  new BookingRequest(userId, dateFrom, dateTo, guestCount, prepaid);
+        BookingRequest request =  BookingRequest.builder().userId("user01")
+                .dateFrom(LocalDate.now())
+                .dateTo( LocalDate.now().plusDays(3))
+                .guestCount(2)
+                .prepaid(false)
+                .build();
+
         double price  =  this.bookingService.calculatePrice(request);
-
         Assertions.assertEquals(300, price);
     }
+
+    @Test
+    public void should_fail_when_IncorrectInput() {
+
+        BookingRequest request =  BookingRequest.builder().userId("user01")
+                .dateFrom(LocalDate.now())
+                .dateTo( LocalDate.now().plusDays(3))
+                .guestCount(1)
+                .prepaid(false)
+                .build();
+        double price  =  this.bookingService.calculatePrice(request);
+
+        // 1 Guest * 3 days * 50 euro =  150 actual
+        Assertions.assertEquals(300, price);
+    }
+
+
 
 }

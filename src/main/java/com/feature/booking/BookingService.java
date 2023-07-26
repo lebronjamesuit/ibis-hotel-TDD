@@ -1,5 +1,7 @@
 package com.feature.booking;
 
+import java.time.temporal.ChronoUnit;
+
 public class BookingService {
 
 	private final PaymentService paymentService;
@@ -19,8 +21,10 @@ public class BookingService {
 	private final static double BASE_PRICE_USD = 50.0;
 
 	public double calculatePrice(BookingRequest bookingRequest) {
-
-		return 0;
+		// Formulate
+		long days = ChronoUnit.DAYS.between(bookingRequest.getDateFrom(), bookingRequest.getDateTo());
+		double price = BASE_PRICE_USD * days * bookingRequest.getGuestCount();
+		return price;
 	}
 	
 

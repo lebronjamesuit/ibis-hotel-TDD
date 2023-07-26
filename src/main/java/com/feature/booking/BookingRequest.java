@@ -1,6 +1,7 @@
 package com.feature.booking;
 
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 
 @ToString
 @EqualsAndHashCode
+@Builder
 public class BookingRequest {
 
 	private final String userId;
@@ -17,15 +19,6 @@ public class BookingRequest {
 	private final boolean prepaid;
 	private String roomId;
 	
-	public BookingRequest(String userId, LocalDate dateFrom, LocalDate dateTo, int guestCount, boolean prepaid) {
-		super();
-		this.userId = userId;
-		this.dateFrom = dateFrom;
-		this.dateTo = dateTo;
-		this.guestCount = guestCount;
-		this.prepaid = prepaid;
-	}
-
 	public String getUserId() {
 		return userId;
 	}
