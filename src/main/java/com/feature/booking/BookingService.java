@@ -26,6 +26,15 @@ public class BookingService {
 		double price = BASE_PRICE_USD * days * bookingRequest.getGuestCount();
 		return price;
 	}
+
+	public int getTotalAvailablePlaceCount (){
+		int placesCount =  roomService.getAvailableRooms()
+				  .stream()
+				  .map(room -> room.getCapacity())
+		          .reduce(0, (roomN, roomN1) -> roomN + roomN1);
+
+		return placesCount;
+	}
 	
 
 }
