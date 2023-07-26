@@ -13,13 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BookingServiceCustomValueTest {
 
-
     private PaymentService paymentServiceMock;
     private RoomService roomServiceMock;
     private BookingDAO bookingDAOMock;
     private MailSender mailSenderMock;
     private BookingService bookingService;
-
 
     @BeforeEach
     public void init(){
@@ -30,7 +28,6 @@ public class BookingServiceCustomValueTest {
 
         this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOMock, mailSenderMock);
 
-
     }
 
     @Test
@@ -38,18 +35,17 @@ public class BookingServiceCustomValueTest {
             // Given , ta co
         Mockito.when(this.roomServiceMock.getAvailableRooms())
                 .thenReturn(Collections.singletonList(new Room("Room1", 5)));
-            // When, call some method, do something
+            // When, call some method
         int placeCount = bookingService.getTotalAvailablePlaceCount();
 
-           // Then, what happened?
+           // Then
         int expected = 5;
         assertEquals(expected, placeCount);
-
     }
 
     @Test
     public void should_countPlace_when_TwoRoomAvailable () {
-        // Given , custom value
+        // Given, custom value
         List<Room> rooms = Arrays.asList(new Room("RoomA", 2), new Room("RoomB",4));
         Mockito.when(this.roomServiceMock.getAvailableRooms())
                 .thenReturn(rooms);
@@ -60,7 +56,6 @@ public class BookingServiceCustomValueTest {
         // Then
         int expected = 2 + 4;
         assertEquals(expected, placeCount);
-
     }
 
 }

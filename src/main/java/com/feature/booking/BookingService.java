@@ -38,7 +38,13 @@ public class BookingService {
     // Main buz logic
     public String makeBooking(BookingRequest bookingRequest) {
        Room room = roomService.findAnyAvailableRoom(bookingRequest);
-       return room.getId();
+       double price = calculatePrice(bookingRequest);
+
+        if (bookingRequest.isPrepaid()) {
+            paymentService.pay(bookingRequest, price);
+        }
+
+       return "";
     }
 
 
