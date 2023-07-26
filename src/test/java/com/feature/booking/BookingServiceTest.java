@@ -29,6 +29,8 @@ public class BookingServiceTest {
 
         this.bookingService = new BookingService(paymentService, roomService, bookingDAO, mailSender);
 
+        System.out.println(roomService.getAvailableRooms());
+        System.out.println(bookingService.getTotalAvailablePlaceCount());
     }
 
     @Test
