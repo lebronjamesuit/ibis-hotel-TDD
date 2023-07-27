@@ -3,6 +3,7 @@ package com.feature.booking;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import static org.mockito.ArgumentMatchers.anyDouble;
@@ -33,6 +34,7 @@ public class BookingServiceExceptionAtPaymentTest {
     }
 
     // When payment is too big, throw exception
+    // Technique ArgumentMatchers for any instance of Booking request
     @Test
     public void should_throwException_When_PaymentMockFailed() {
         BookingRequest request =  BookingRequest.builder().userId("user01")
@@ -42,12 +44,13 @@ public class BookingServiceExceptionAtPaymentTest {
                 .prepaid(true)
                 .build();
 
-       when(this.paymentServiceMock.pay( any(), anyDouble())).thenThrow(BusinessException.class);
+
+       when(this.paymentServiceMock
+               .pay(ArgumentMatchers.any(), ArgumentMatchers.anyDouble())
+       ).thenThrow(BusinessException.class);
 
         Executable executable = () -> bookingService.makeBooking(request);
         assertThrows(BusinessException.class, executable);
     }
-
-
 
 }
