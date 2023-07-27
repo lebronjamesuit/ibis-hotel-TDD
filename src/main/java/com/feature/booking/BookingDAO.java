@@ -15,4 +15,12 @@ public class BookingDAO {
         return id;
     }
 
+    public BookingRequest get(String id) {
+        return bookings.get(id);
+    }
+
+    public void delete(String bookingId) {
+        bookings.remove(bookingId);
+    }
+
 }

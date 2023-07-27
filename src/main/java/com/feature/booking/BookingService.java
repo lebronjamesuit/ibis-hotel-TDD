@@ -52,4 +52,9 @@ public class BookingService {
         return bookingId;
     }
 
+    public void cancelBooking(String bookingId) {
+        BookingRequest request = bookingDAO.get(bookingId);
+        roomService.releaseRoom(request.getRoomId());
+        bookingDAO.delete(bookingId);
+    }
 }

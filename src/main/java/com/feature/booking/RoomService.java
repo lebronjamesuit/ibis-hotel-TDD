@@ -56,5 +56,7 @@ public class RoomService {
     }
 
 
+    public void releaseRoom(String roomId) {
 
+    }
 }

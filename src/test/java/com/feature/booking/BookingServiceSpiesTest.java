@@ -21,7 +21,7 @@ public class BookingServiceSpiesTest {
 
 
     @BeforeEach
-    public void init(){
+    public void init() {
         this.paymentServiceMock = Mockito.mock(PaymentService.class);
         this.roomServiceMock = Mockito.mock(RoomService.class);
         this.bookingDAOSpy = Mockito.spy(BookingDAO.class);
@@ -36,10 +36,10 @@ public class BookingServiceSpiesTest {
     @Test
     public void should_invoke_DAO_and_return_real_bookingId() {
 
-       // Prepare data and mock dependency.
-        BookingRequest request =  BookingRequest.builder().userId("user01")
+        // Prepare data and mock dependency.
+        BookingRequest request = BookingRequest.builder().userId("user01")
                 .dateFrom(LocalDate.now())
-                .dateTo( LocalDate.now().plusDays(3))
+                .dateTo(LocalDate.now().plusDays(3))
                 .guestCount(2)
                 .prepaid(true)
                 .build();
@@ -57,4 +57,31 @@ public class BookingServiceSpiesTest {
     }
 
 
+    // Purpose: Test the cancel booking when BookingRequest is valid.
+    @Test
+    public void should_cancel_booking_when_bookingRequest_is_valid() {
+
+       // Given
+        BookingRequest bookingRequest = BookingRequest.builder().userId("user01")
+                .dateFrom(LocalDate.now())
+                .dateTo(LocalDate.now().plusDays(3))
+                .guestCount(2)
+                .prepaid(true)
+                .build();
+
+        String bookingId = "dummyBookingId";
+        when(roomServiceMock.findAnyAvailableRoom(bookingRequest))
+                .thenReturn(new Room("1.1", 2));
+
+        // DAO Spy runs real code, I modify the outcome by force return the valid bookingRequest
+        doReturn(bookingRequest).when(bookingDAOSpy).get(bookingId);
+
+        //  When things happens
+        bookingService.cancelBooking(bookingId);
+
+        // Verify these method have been called
+        verify(roomServiceMock, times(1)).releaseRoom(bookingRequest.getRoomId());
+        verify(bookingDAOSpy, times(1)).delete(bookingId);
+
+    }
 }
