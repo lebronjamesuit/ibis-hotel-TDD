@@ -45,6 +45,16 @@ public class RoomService {
        return room;
     }
 
+    public void bookRoom(String roomId) {
+        Room room = roomAvailability.entrySet().stream()
+                .filter(entry -> entry.getKey().getId().equals(roomId) && entry.getValue())
+                .findFirst()
+                .map(entry -> entry.getKey())
+                .orElseThrow(BusinessException::new);
+
+        roomAvailability.put(room, true);
+    }
+
 
 
 }

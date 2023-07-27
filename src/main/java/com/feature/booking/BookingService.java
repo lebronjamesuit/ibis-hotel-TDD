@@ -44,9 +44,12 @@ public class BookingService {
             paymentService.pay(bookingRequest, price);
         }
 
-       return "";
+        bookingRequest.setRoomId(room.getId());
+        String bookingId = bookingDAO.save(bookingRequest);
+        roomService.bookRoom(room.getId());
+        mailSender.sendBookingConfirmation(bookingId);
+
+        return bookingId;
     }
-
-
 
 }
