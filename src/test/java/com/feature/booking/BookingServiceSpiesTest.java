@@ -2,7 +2,12 @@ package com.feature.booking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
@@ -10,26 +15,24 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@ExtendWith(MockitoExtension.class)
 public class BookingServiceSpiesTest {
 
 
+    @Mock
     private PaymentService paymentServiceMock;
+
+    @Mock
     private RoomService roomServiceMock;
+
+    @Spy
     private BookingDAO bookingDAOSpy;
+
+    @Mock
     private MailSender mailSenderMock;
+
+    @InjectMocks
     private BookingService bookingService;
-
-
-    @BeforeEach
-    public void init() {
-        this.paymentServiceMock = Mockito.mock(PaymentService.class);
-        this.roomServiceMock = Mockito.mock(RoomService.class);
-        this.bookingDAOSpy = Mockito.spy(BookingDAO.class);
-        this.mailSenderMock = Mockito.mock(MailSender.class);
-
-        this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOSpy, mailSenderMock);
-
-    }
 
 
     // Purpose: Use the Mockito Spy to run the real method of bookingDAO
@@ -70,8 +73,7 @@ public class BookingServiceSpiesTest {
                 .build();
 
         String bookingId = "dummyBookingId";
-        when(roomServiceMock.findAnyAvailableRoom(bookingRequest))
-                .thenReturn(new Room("1.1", 2));
+
 
         // DAO Spy runs real code, I modify the outcome by force return the valid bookingRequest
         doReturn(bookingRequest).when(bookingDAOSpy).get(bookingId);

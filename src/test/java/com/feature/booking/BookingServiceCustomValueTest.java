@@ -2,7 +2,12 @@ package com.feature.booking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,25 +15,23 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+@ExtendWith(MockitoExtension.class)
 public class BookingServiceCustomValueTest {
 
+    @Mock
     private PaymentService paymentServiceMock;
+
+    @Mock
     private RoomService roomServiceMock;
+
+    @Mock
     private BookingDAO bookingDAOMock;
+
+    @Mock
     private MailSender mailSenderMock;
+
+    @InjectMocks
     private BookingService bookingService;
-
-    @BeforeEach
-    public void init(){
-        this.paymentServiceMock = Mockito.mock(PaymentService.class);
-        this.roomServiceMock = Mockito.mock(RoomService.class);
-        this.bookingDAOMock = Mockito.mock(BookingDAO.class);
-        this.mailSenderMock = Mockito.mock(MailSender.class);
-
-        this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOMock, mailSenderMock);
-
-    }
 
     @Test
     public void should_countPlace_when_OneRoomAvailable () {

@@ -3,8 +3,9 @@ package com.feature.booking;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -14,30 +15,27 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.*;
 
-
+@ExtendWith(MockitoExtension.class)
 public class BookingServiceArgumentCaptureTest {
 
-
+    @Mock
     private PaymentService paymentServiceMock;
+
+    @Mock
     private RoomService roomServiceMock;
+
+    @Mock
     private BookingDAO bookingDAOMock;
+
+    @Mock
     private MailSender mailSenderMock;
+
+    @InjectMocks
     private BookingService bookingService;
 
+    @Captor
     private ArgumentCaptor<Double> doubleArgumentCaptor;
 
-
-    @BeforeEach
-    public void init(){
-        this.paymentServiceMock = Mockito.mock(PaymentService.class);
-        this.roomServiceMock = Mockito.mock(RoomService.class);
-        this.bookingDAOMock = Mockito.mock(BookingDAO.class);
-        this.mailSenderMock = Mockito.mock(MailSender.class);
-
-        this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOMock, mailSenderMock);
-
-        doubleArgumentCaptor = ArgumentCaptor.forClass(Double.class);
-    }
 
     @Test
     public void should_payCorrect_Price_when_inputCorrect() {
@@ -97,5 +95,5 @@ public class BookingServiceArgumentCaptureTest {
         Assertions.assertEquals(expected, values);
 
     }
-    
+
 }

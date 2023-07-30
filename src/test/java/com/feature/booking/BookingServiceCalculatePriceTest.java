@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import java.time.LocalDate;
 
 
-public class Test01FirstMock {
+public class BookingServiceCalculatePriceTest {
 
     private PaymentService paymentService;
     private RoomService roomService;
@@ -55,7 +55,7 @@ public class Test01FirstMock {
         double price  =  this.bookingService.calculatePrice(request);
 
         // 1 Guest * 3 days * 50 euro =  150 actual
-        Assertions.assertEquals(300, price);
+        Assertions.assertEquals(150, price);
     }
 
 

@@ -2,9 +2,13 @@ package com.feature.booking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.any;
@@ -13,25 +17,23 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+@ExtendWith(MockitoExtension.class)
 public class BookingServiceExceptionAtPaymentTest {
 
-    private PaymentService paymentServiceMock;
-    private RoomService roomServiceMock;
-    private BookingDAO bookingDAOMock;
-    private MailSender mailSenderMock;
-    private BookingService bookingService;
+        @Mock
+        private PaymentService paymentServiceMock;
 
-    @BeforeEach
-    public void init(){
-        this.paymentServiceMock = Mockito.mock(PaymentService.class);
-        this.roomServiceMock = Mockito.mock(RoomService.class);
-        this.bookingDAOMock = Mockito.mock(BookingDAO.class);
-        this.mailSenderMock = Mockito.mock(MailSender.class);
+        @Mock
+        private RoomService roomServiceMock;
 
-        this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOMock, mailSenderMock);
+        @Mock
+        private BookingDAO bookingDAOMock;
 
-    }
+        @Mock
+        private MailSender mailSenderMock;
+
+        @InjectMocks
+        private BookingService bookingService;
 
     // When payment is too big, throw exception
     // Technique ArgumentMatchers for any instance of Booking request

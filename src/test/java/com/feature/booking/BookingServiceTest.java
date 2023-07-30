@@ -2,33 +2,31 @@ package com.feature.booking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@ExtendWith(MockitoExtension.class)
 public class BookingServiceTest {
 
-
+    @Mock
     private PaymentService paymentServiceMock;
+
+    @Mock
     private RoomService roomServiceMock;
+
+    @Mock
     private BookingDAO bookingDAOMock;
+
+    @Mock
     private MailSender mailSenderMock;
+
+    @InjectMocks
     private BookingService bookingService;
-
-
-    @BeforeEach
-    public void init(){
-        this.paymentServiceMock = Mockito.mock(PaymentService.class);
-        this.roomServiceMock = Mockito.mock(RoomService.class);
-        this.bookingDAOMock = Mockito.mock(BookingDAO.class);
-        this.mailSenderMock = Mockito.mock(MailSender.class);
-
-        this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOMock, mailSenderMock);
-
-        System.out.println(roomServiceMock.getAvailableRooms());
-        System.out.println(bookingService.getTotalAvailablePlaceCount());
-    }
 
     @Test
     public void should_return_0_place_because_of_MockRoomService() {

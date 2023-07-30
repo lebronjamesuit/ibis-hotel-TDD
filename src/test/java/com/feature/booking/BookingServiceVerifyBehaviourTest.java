@@ -3,8 +3,11 @@ package com.feature.booking;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.verification.VerificationMode;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,29 +17,23 @@ import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 
-
+@ExtendWith(MockitoExtension.class)
 public class BookingServiceVerifyBehaviourTest {
 
-
+    @Mock
     private PaymentService paymentServiceMock;
+
+    @Mock
     private RoomService roomServiceMock;
+
+    @Mock
     private BookingDAO bookingDAOMock;
+
+    @Mock
     private MailSender mailSenderMock;
+
+    @InjectMocks
     private BookingService bookingService;
-
-
-    @BeforeEach
-    public void init(){
-        this.paymentServiceMock = Mockito.mock(PaymentService.class);
-        this.roomServiceMock = Mockito.mock(RoomService.class);
-        this.bookingDAOMock = Mockito.mock(BookingDAO.class);
-        this.mailSenderMock = Mockito.mock(MailSender.class);
-
-        this.bookingService = new BookingService(paymentServiceMock, roomServiceMock, bookingDAOMock, mailSenderMock);
-
-        System.out.println(roomServiceMock.getAvailableRooms());
-        System.out.println(bookingService.getTotalAvailablePlaceCount());
-    }
 
     @Test
     public void should_invoke_payment_when_prepaid() {
@@ -47,6 +44,9 @@ public class BookingServiceVerifyBehaviourTest {
                 .guestCount(2)
                 .prepaid(true)
                 .build();
+
+        when(roomServiceMock.findAnyAvailableRoom(request))
+                .thenReturn(new Room("1.1", 2))  ;
 
         // Actual real service
         bookingService.makeBooking(request);
@@ -67,6 +67,9 @@ public class BookingServiceVerifyBehaviourTest {
                 .guestCount(2)
                 .prepaid(false)
                 .build();
+
+        when(roomServiceMock.findAnyAvailableRoom(request))
+                .thenReturn(new Room("1.1", 2))  ;
 
         // Actual real service
         bookingService.makeBooking(request);
